@@ -16,15 +16,15 @@ import Crops from './crops';
 import Screens from 'until/screens';
 
 const Home = ({ navigation, ...props }) => {
-	useEffect(() => {
-		setTimeout(() => {
-			navigation.navigate(Screens.CAPTURE, {
-				name: 'Home',
-				crop: 'rice',
-			});
-			console.log('Navigating');
-		}, 5000);
-	}, []);
+	// useEffect(() => {
+	// 	setTimeout(() => {
+	// 		navigation.navigate(Screens.CAPTURE, {
+	// 			name: 'Home',
+	// 			crop: 'rice',
+	// 		});
+	// 		console.log('Navigating');
+	// 	}, 5000);
+	// }, []);
 
 	return (
 		<SafeAreaView style={[styles.fullScreen]}>
