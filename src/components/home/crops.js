@@ -1,8 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import { SvgCssUri, SvgXml, SvgCss } from 'react-native-svg';
+import { SvgCss } from 'react-native-svg';
 import RiceSvg from 'assests/imgs/crops/svgs/rice.svg';
 import CornSvg from 'assests/imgs/crops/svgs/corn.svg';
 import PepperSvg from 'assests/imgs/crops/svgs/pepper.svg';
@@ -11,6 +9,9 @@ import ChilliSvg from 'assests/imgs/crops/svgs/chilli.svg';
 import MangoSvg from 'assests/imgs/crops/svgs/mango.svg';
 import GrapefruitSvg from 'assests/imgs/crops/svgs/grapefruit.svg';
 import GrapesSvg from 'assests/imgs/crops/svgs/grapes.svg';
+import { useNavigation } from '@react-navigation/native';
+
+import Screens from 'until/screens';
 
 const listCrop = [
 	{
@@ -48,8 +49,14 @@ const listCrop = [
 ];
 
 const Crops = () => {
-	const handlePress = () => {
-		console.log('press');
+	const navigation = useNavigation();
+
+	const handlePress = crop => {
+		// console.log('press');
+		return e => {
+			console.log('press');
+			navigation.navigate(Screens.CAPTURE, { name: 'Crops', crop: crop });
+		};
 	};
 
 	return (
@@ -60,7 +67,7 @@ const Crops = () => {
 						<View key={name} style={styles.flexItem}>
 							<TouchableOpacity
 								style={[styles.opacityButton]}
-								onPress={handlePress}>
+								onPress={handlePress(name)}>
 								<View style={[styles.flexContentButton]}>
 									<SvgCss
 										width={80}

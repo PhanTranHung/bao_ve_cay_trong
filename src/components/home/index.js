@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
 	StyleSheet,
 	Text,
@@ -13,8 +13,19 @@ import {
 
 import Banner from './banner';
 import Crops from './crops';
+import Screens from 'until/screens';
 
-const Home = () => {
+const Home = ({ navigation, ...props }) => {
+	useEffect(() => {
+		setTimeout(() => {
+			navigation.navigate(Screens.CAPTURE, {
+				name: 'Home',
+				crop: 'rice',
+			});
+			console.log('Navigating');
+		}, 5000);
+	}, []);
+
 	return (
 		<SafeAreaView style={[styles.fullScreen]}>
 			<ScrollView>
