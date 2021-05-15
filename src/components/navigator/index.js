@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import HomeScreen from 'components/home';
 import CaptureScreen from 'components/capture';
+import PreviewImageScreen from 'components/previewImage';
 import Screens from 'until/screens';
 
 const Stack = createStackNavigator();
@@ -20,6 +21,10 @@ const Navigator = () => {
 				<Stack.Screen
 					name={Screens.CAPTURE}
 					component={CaptureScreen}
+				/>
+				<Stack.Screen
+					name={Screens.PREVIEW}
+					component={PreviewImageScreen}
 				/>
 			</Stack.Navigator>
 		</NavigationContainer>
