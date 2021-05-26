@@ -4,14 +4,18 @@ import os
 from flask import Flask, request, jsonify
 from firebase_admin import credentials, firestore, initialize_app
 
+
+ASSETS_DIR = os.path.dirname(os.path.abspath(__file__))
 # Initialize Flask app
 app = Flask(__name__)
 
 # Initialize Firestore DB
-cred = credentials.Certificate('plant-e7169-firebase-adminsdk-vv9mb-c8a6f499fe.json')
+cred = credentials.Certificate(
+    'plant-e7169-firebase-adminsdk-vv9mb-c8a6f499fe.json')
 default_app = initialize_app(cred)
 db = firestore.client()
 todo_ref = db.collection('Disease')
+
 
 @app.route('/add', methods=['POST'])
 def create():
@@ -26,6 +30,7 @@ def create():
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occured: {e}"
+
 
 @app.route('/list', methods=['GET'])
 def read():
@@ -46,6 +51,7 @@ def read():
     except Exception as e:
         return f"An Error Occured: {e}"
 
+
 @app.route('/query', methods=['GET'])
 def read1():
     """
@@ -65,6 +71,7 @@ def read1():
     except Exception as e:
         return f"An Error Occured: {e}"
 
+
 @app.route('/update', methods=['POST', 'PUT'])
 def update():
     """
@@ -79,6 +86,7 @@ def update():
     except Exception as e:
         return f"An Error Occured: {e}"
 
+
 @app.route('/delete', methods=['GET', 'DELETE'])
 def delete():
     """
@@ -92,12 +100,50 @@ def delete():
     except Exception as e:
         return f"An Error Occured: {e}"
 
+
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+
+
+def allowed_file(filename):
+    extension = filename.rsplit('.', 1)[1].lower()
+    return '.' in filename and extension in ALLOWED_EXTENSIONS
+
+
+@app.route('/predict', methods=['POST', 'PUT'])
+def predict():
+    try:
+
+        print(request)
+
+        if 'img' not in request.files:
+            return jsonify({
+                "error": True,
+                'message': 'Missing file'
+            }), 100
+        file = request.files['img']
+        if file.filename == '':
+            return jsonify({
+                "error": True,
+                'message': 'No file selected'
+            }), 200
+
+        if file and allowed_file(file.filename):
+
+            return jsonify({"success": True,  "name": request.form['disease']}), 200
+
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+
 port = int(os.environ.get('PORT', 8080))
+
 if __name__ == '__main__':
-    app.run(threaded=True, host='127.0.0.1', port=port)
+    # context = ('./localhost.csr', './localhost.key')
+    # app.run(threaded=True, host='0.0.0.0', port=port, ssl_context='adhoc')
+    app.run(threaded=True, host='0.0.0.0', port=port)
 
 
-#=====================================
+# =====================================
 # from flask import Flask, request
 # from flask_firebase_admin import FirebaseAdmin
 

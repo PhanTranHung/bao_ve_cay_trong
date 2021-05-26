@@ -4,17 +4,48 @@ import {
 	Text,
 	View,
 	SafeAreaView,
-	ScrollView,
 	Image,
-	Dimensions,
-	Platform,
 	TouchableOpacity,
 	FlatList,
-	TouchableNativeFeedback,
-	TouchableNativeFeedbackComponent,
 } from 'react-native';
 import { hasReadExternalStoragePermission } from 'until/permission';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import axios from 'axios';
+import FormDataa from 'form-data';
+
+const send = (
+	image,
+	url = 'http://192.168.1.9:8080/predict',
+	options = { method: 'POST', headers: {} },
+) => {
+	const { method, headers } = options;
+	// console.warn(REACT_APP_ENV_POINT);
+
+	const img = {
+		uri: image,
+		type: 'image/jpeg',
+		name: `disease.jpg`,
+	};
+
+	const body = new FormData();
+	body.append('img', img);
+	// body.append('img2', img);
+	body.append('disease', 'aaaaaaaaaaaaaaaa');
+	console.log(body, image);
+
+	return axios({
+		url: url,
+		data: body,
+		method: method,
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'multipart/form-data',
+			...headers,
+		},
+	})
+		.then(rs => rs.data)
+		.catch(e => console.error(e));
+};
 
 const PreviewImage = ({ navigation, route, ...props }) => {
 	const { listImage = [] } = route.params;
@@ -26,6 +57,19 @@ const PreviewImage = ({ navigation, route, ...props }) => {
 	// const listImageUri = listImage.map(
 	// 	entry => entry.uri /* .split('//')[1] */,
 	// );
+
+	const predictImage = () => {
+		listImage.map(img => {
+			send(img.uri)
+				.then(rs => console.log('Success:::', rs))
+				.catch(e => console.error(e));
+		});
+	};
+
+	// axios
+	// 	.get('http://192.168.1.9:8080/list')
+	// 	.then(rs => rs.data)
+	// 	.then(console.log);
 
 	const handleBack = () => navigation.goBack();
 
@@ -60,7 +104,9 @@ const PreviewImage = ({ navigation, route, ...props }) => {
 					keyExtractor={item => item.uri}
 				/>
 				<View style={styles.bottomActions}>
-					<TouchableOpacity style={styles.scanButton}>
+					<TouchableOpacity
+						onPress={predictImage}
+						style={styles.scanButton}>
 						<Text style={styles.text}>Chuẩn đoán</Text>
 					</TouchableOpacity>
 				</View>
