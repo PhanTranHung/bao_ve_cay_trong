@@ -3,6 +3,7 @@
 import os
 from flask import Flask, request, jsonify
 from firebase_admin import credentials, firestore, initialize_app
+import json
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -48,22 +49,16 @@ def read():
 
 @app.route('/query', methods=['GET'])
 def read1():
-    """
-        read() : Fetches documents from Firestore collection as JSON.
-        todo : Return document that matches query ID.
-        all_todos : Return all documents.
-    """
-    try:
-        # Check if ID was passed to URL query
-        todo_id = request.args.get(1)
-        if todo_id:
-            todo = todo_ref.document(todo_id).get()
-            return jsonify(todo.to_dict()), 200
-        else:
-            all_todos = [doc.to_dict() for doc in todo_ref.stream()]
-            return jsonify(all_todos), 200
-    except Exception as e:
-        return f"An Error Occured: {e}"
+  try:
+  # Check if ID was passed to URL query
+    todo_id = request.args.get('id')
+    if todo_id:
+      todo = todo_ref.document(todo_id).get()
+      data =  jsonify(todo.to_dict())
+    if(data['ID'] == '1'):
+      return jsonify(data['name'])
+  except Exception as e:
+    return f"An Error Occured: {e}"
 
 @app.route('/update', methods=['POST', 'PUT'])
 def update():
@@ -95,24 +90,3 @@ def delete():
 port = int(os.environ.get('PORT', 8080))
 if __name__ == '__main__':
     app.run(threaded=True, host='127.0.0.1', port=port, ssl_context='adhoc')
-
-
-#=====================================
-# from flask import Flask, request
-# from flask_firebase_admin import FirebaseAdmin
-
-# app = Flask(__name__)
-# firebase = FirebaseAdmin(app)  # uses GOOGLE_APPLICATION_CREDENTIALS
-
-# @app.route("/unprotected")
-# def unprotected():
-#     return {"message": "Hello anonymous user!"}
-
-# @app.route("/protected")
-# @firebase.jwt_required  # This route now requires authorization via firebase jwt
-# def protected():
-#     # By default JWT payload is stored under request.jwt_payload
-#     return {"message": f"Hello {request.jwt_payload['email']}!"}
-
-# if __name__ == "__main__":
-#     app.run(debug=True)
