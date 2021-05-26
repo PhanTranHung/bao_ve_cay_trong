@@ -3,7 +3,7 @@ import requests
 
 # initialize the Keras REST API endpoint URL along with the input
 # image path
-KERAS_REST_API_URL = "http://localhost:5000/"
+KERAS_REST_API_URL = "http://localhost:8080/"
 IMAGE_PATH = "D:/DACN2/bao_ve_cay_trong/back_end/data/Tungro/tungro__0_2346.jpg"
 
 # load the input image and construct the payload for the request
