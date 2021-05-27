@@ -11,7 +11,6 @@ import {
 import { hasReadExternalStoragePermission } from 'until/permission';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios';
-import FormDataa from 'form-data';
 
 const send = (
 	image,
