@@ -64,6 +64,13 @@ buck-out/
 /back_end/flask_app/localhost.csr
 /back_end/flask_app/localhost.key
 /back_end/flask_app/__pycache__
+/back_end/flask_app/model.pickle
+/back_end/flask_app/modelss.h5
+/back_end/flask_app/__pycache__
+/back_end/flask_app/saved_model.pb
+
+
+/back_end/model.pickle.zip
 /back_end/__pycache__
 
 .env
