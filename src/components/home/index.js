@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	StyleSheet,
 	Text,
@@ -14,8 +14,12 @@ import {
 import Banner from './banner';
 import Crops from './crops';
 import Screens from 'until/screens';
+import { useRoute } from '@react-navigation/core';
 
-const Home = ({ navigation, ...props }) => {
+const Home = ({ navigation, route, ...props }) => {
+	console.log(route.params);
+
+	const [crops, setCrops] = useState(route.params.selectedCrops);
 	// useEffect(() => {
 	// 	setTimeout(() => {
 	// 		navigation.navigate(Screens.CAPTURE, {
@@ -31,7 +35,7 @@ const Home = ({ navigation, ...props }) => {
 			<ScrollView>
 				<View style={styles.fullScreen}>
 					<Banner />
-					<Crops />
+					<Crops crops={crops} />
 				</View>
 			</ScrollView>
 		</SafeAreaView>

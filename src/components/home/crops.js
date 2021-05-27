@@ -9,47 +9,56 @@ import ChilliSvg from 'assests/imgs/crops/svgs/chilli.svg';
 import MangoSvg from 'assests/imgs/crops/svgs/mango.svg';
 import GrapefruitSvg from 'assests/imgs/crops/svgs/grapefruit.svg';
 import GrapesSvg from 'assests/imgs/crops/svgs/grapes.svg';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import Screens from 'until/screens';
 
 const listCrop = [
 	{
+		id: 'rice',
 		name: 'Lúa',
 		svgIcon: RiceSvg,
 	},
 	{
+		id: 'corn',
 		name: 'Ngô',
 		svgIcon: CornSvg,
 	},
 	{
+		id: 'pepper',
 		name: 'Tiêu',
 		svgIcon: PepperSvg,
 	},
 	{
+		id: 'lemon',
 		name: 'Chanh',
 		svgIcon: LemonSvg,
 	},
 	{
+		id: 'chilli',
 		name: 'Ớt',
 		svgIcon: ChilliSvg,
 	},
 	{
+		id: 'mango',
 		name: 'Xoài',
 		svgIcon: MangoSvg,
 	},
 	{
+		id: 'grapefruit',
 		name: 'Bưởi',
 		svgIcon: GrapefruitSvg,
 	},
 	{
+		id: 'grapes',
 		name: 'Nho',
 		svgIcon: GrapesSvg,
 	},
 ];
 
-const Crops = () => {
+const Crops = ({ crops }) => {
 	const navigation = useNavigation();
+	const route = useRoute();
 
 	const handlePress = crop => {
 		// console.log('press');
@@ -59,8 +68,32 @@ const Crops = () => {
 		};
 	};
 
+	console.log('Home', crops, route.params);
+
 	return (
 		<View style={[styles.container]}>
+			<View style={[styles.boudingBox]}>
+				<View style={[styles.flexBox]}>
+					{listCrop.map(({ id, name, svgIcon }) => (
+						<View key={name} style={styles.flexItem}>
+							<TouchableOpacity
+								style={[styles.opacityButton]}
+								onPress={handlePress(name)}>
+								<View style={[styles.flexContentButton]}>
+									<SvgCss
+										width={80}
+										height={80}
+										xml={svgIcon}
+									/>
+									<Text style={[styles.buttonName]}>
+										{name}
+									</Text>
+								</View>
+							</TouchableOpacity>
+						</View>
+					))}
+				</View>
+			</View>
 			<View style={[styles.boudingBox]}>
 				<View style={[styles.flexBox]}>
 					{listCrop.map(({ name, svgIcon }) => (
