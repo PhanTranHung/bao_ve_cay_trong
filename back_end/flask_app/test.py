@@ -3,7 +3,8 @@
 import os
 from flask import Flask, request, jsonify
 from firebase_admin import credentials, firestore, initialize_app
-
+import cv2
+import numpy as np
 
 ASSETS_DIR = os.path.dirname(os.path.abspath(__file__))
 # Initialize Flask app
@@ -129,9 +130,21 @@ def predict():
 
         if file and allowed_file(file.filename):
 
+            filestr = file.read()
+            img = np.frombuffer(filestr, np.uint8)
+            img = cv2.imdecode(img, cv2.IMREAD_COLOR)
+            img = cv2.resize(img, (128, 128))
+            img = np.reshape(img, (128, 128, 3))
+            # img = cv2.reshape(img, (128, 128, 3))
+            cv2.imshow("window_name", img)
+            cv2.waitKey(0)
+            # closing all open windows
+            cv2.destroyWindow("window_name")
+
             return jsonify({"success": True,  "name": request.form['disease']}), 200
 
     except Exception as e:
+        print(e)
         return f"An Error Occured: {e}"
 
 

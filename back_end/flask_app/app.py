@@ -91,8 +91,8 @@ def predict():
                 'message': 'No file selected'
             }), 200
         if file and allowed_file(file.filename):
-            # filename = Image.open(file)
-            # filename = secure_filename(file.filename)
+            filename = Image.open(file)
+            filename = secure_filename(file.filename)
             print(filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return "Upload Successfully" + filename, 200
