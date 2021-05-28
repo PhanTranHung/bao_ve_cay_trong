@@ -12,22 +12,17 @@ import cv2, numpy as np
 
 def model1(classes):  
     model = Sequential([
-        layers.experimental.preprocessing.Rescaling(1./255, input_shape=(128, 128, 3),),
-        layers.Conv2D(8, (3, 3), activation = 'relu', padding='same'),
+        layers.experimental.preprocessing.Rescaling(1./255, input_shape=(180, 180, 3),),
+        layers.Conv2D(180, (3, 3), activation = 'relu', padding='same'),
         layers.MaxPooling2D(pool_size = (2, 2)),
         layers.Dropout(0.25),
 
-        layers.Conv2D(16, (5, 5), activation = 'relu', padding='same'),
-        layers.Conv2D(16, (3, 3), activation = 'relu', padding='same'),
+        layers.Conv2D(128, (3, 3), activation = 'relu', padding='same'),
+        layers.Conv2D(128, (3, 3), activation = 'relu', padding='same'),
         layers.MaxPooling2D(pool_size = (2, 2)),
         layers.Dropout(0.25),
 
-        layers.Conv2D(32, (5, 5), activation = 'relu', padding='same'),
-        layers.Conv2D(32, (3, 3), activation = 'relu', padding='same'),
-        layers.MaxPooling2D(pool_size = (2, 2)),
-        layers.Dropout(0.25),
-
-        layers.Conv2D(64, (5, 5), activation = 'relu', padding='same'),
+        layers.Conv2D(64, (3, 3), activation = 'relu', padding='same'),
         layers.Conv2D(64, (3, 3), activation = 'relu', padding='same'),
         layers.MaxPooling2D(pool_size = (2, 2)),
         layers.Dropout(0.25),

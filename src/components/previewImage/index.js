@@ -15,7 +15,7 @@ import FormDataa from 'form-data';
 
 const send = (
 	image,
-	url = 'http://192.168.1.9:8080/predict',
+	url = 'http://192.168.1.6:8080/predict',
 	options = { method: 'POST', headers: {} },
 ) => {
 	const { method, headers } = options;
@@ -30,7 +30,7 @@ const send = (
 	const body = new FormData();
 	body.append('img', img);
 	// body.append('img2', img);
-	body.append('disease', 'aaaaaaaaaaaaaaaa');
+	// body.append('disease', 'aaaaaaaaaaaaaaaa');
 	console.log(body, image);
 
 	return axios({
@@ -77,10 +77,7 @@ const PreviewImage = ({ navigation, route, ...props }) => {
 		return (
 			<View key={item.uri} style={styles.boudingBox}>
 				<Image
-					style={[
-						styles.image,
-						{ aspectRatio: item.width / item.height },
-					]}
+					style={[styles.image, { aspectRatio: item.width / item.height }]}
 					source={{ uri: item.uri }}
 				/>
 				{/* <Text>{item.uri}</Text> */}
@@ -92,9 +89,7 @@ const PreviewImage = ({ navigation, route, ...props }) => {
 		<SafeAreaView style={[styles.fullScreen]}>
 			<View style={styles.fullScreen}>
 				<View style={styles.navbar}>
-					<TouchableOpacity
-						style={styles.backButton}
-						onPress={handleBack}>
+					<TouchableOpacity style={styles.backButton} onPress={handleBack}>
 						<Icon name='chevron-left' size={30} color='#484848' />
 					</TouchableOpacity>
 				</View>
@@ -104,9 +99,7 @@ const PreviewImage = ({ navigation, route, ...props }) => {
 					keyExtractor={item => item.uri}
 				/>
 				<View style={styles.bottomActions}>
-					<TouchableOpacity
-						onPress={predictImage}
-						style={styles.scanButton}>
+					<TouchableOpacity onPress={predictImage} style={styles.scanButton}>
 						<Text style={styles.text}>Chuẩn đoán</Text>
 					</TouchableOpacity>
 				</View>

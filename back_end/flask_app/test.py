@@ -141,24 +141,3 @@ if __name__ == '__main__':
     # context = ('./localhost.csr', './localhost.key')
     # app.run(threaded=True, host='0.0.0.0', port=port, ssl_context='adhoc')
     app.run(threaded=True, host='0.0.0.0', port=port)
-
-
-# =====================================
-# from flask import Flask, request
-# from flask_firebase_admin import FirebaseAdmin
-
-# app = Flask(__name__)
-# firebase = FirebaseAdmin(app)  # uses GOOGLE_APPLICATION_CREDENTIALS
-
-# @app.route("/unprotected")
-# def unprotected():
-#     return {"message": "Hello anonymous user!"}
-
-# @app.route("/protected")
-# @firebase.jwt_required  # This route now requires authorization via firebase jwt
-# def protected():
-#     # By default JWT payload is stored under request.jwt_payload
-#     return {"message": f"Hello {request.jwt_payload['email']}!"}
-
-# if __name__ == "__main__":
-#     app.run(debug=True)
