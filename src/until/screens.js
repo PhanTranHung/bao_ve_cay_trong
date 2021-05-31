@@ -3,4 +3,6 @@ export default {
 	CAPTURE: 'CaptureScreen',
 	PREVIEW: 'PreviewScreen',
 	SELECTCROPS: 'SELECTCROPS',
+	FEATURES: 'FEATURES',
+	RESULT: 'RESULT',
 };

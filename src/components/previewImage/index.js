@@ -11,6 +11,7 @@ import {
 import { hasReadExternalStoragePermission } from 'until/permission';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios';
+import Screens from 'until/screens';
 
 const send = (
 	image,
@@ -60,9 +61,17 @@ const PreviewImage = ({ navigation, route, ...props }) => {
 	const predictImage = () => {
 		listImage.map(img => {
 			send(img.uri)
-				.then(rs => console.log('Success:::', rs))
-				.catch(e => console.error(e));
+				.then(rs => {
+					console.log('Success:::', rs);
+					navigateToResultScreen(rs.describe);
+				})
+				.catch(e => navigateToResultScreen(rs.describe));
 		});
+	};
+
+	const navigateToResultScreen = html => {
+		// Pass html here
+		navigation.navigate(Screens.RESULT, { html });
 	};
 
 	// axios

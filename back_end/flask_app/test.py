@@ -136,12 +136,12 @@ def predict():
             img = cv2.resize(img, (128, 128))
             img = np.reshape(img, (128, 128, 3))
             # img = cv2.reshape(img, (128, 128, 3))
-            cv2.imshow("window_name", img)
-            cv2.waitKey(0)
-            # closing all open windows
-            cv2.destroyWindow("window_name")
+            # cv2.imshow("window_name", img)
+            # cv2.waitKey(0)
+            # # closing all open windows
+            # cv2.destroyWindow("window_name")
 
-            return jsonify({"success": True,  "name": request.form['disease']}), 200
+            return jsonify({"success": True,  "name": "Đây là bệnh hiểm nghèo"}), 200
 
     except Exception as e:
         print(e)

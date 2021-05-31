@@ -2,5 +2,6 @@
 	"editor.formatOnSave": true,
 	"editor.tabSize": 2,
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"editor.autoClosingBrackets": "always"
+	"editor.autoClosingBrackets": "always",
+	"python.formatting.provider": "black"
 }

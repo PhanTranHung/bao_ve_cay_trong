@@ -8,7 +8,7 @@
 			"name": "Python: Test",
 			"type": "python",
 			"request": "launch",
-			"program": "test.py",
+			"program": "create_data_script.py",
 			"console": "integratedTerminal"
 		},
 		{

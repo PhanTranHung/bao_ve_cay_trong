@@ -18,6 +18,7 @@ const listCrop = [
 		id: 'rice',
 		name: 'Lúa',
 		svgIcon: RiceSvg,
+		route: Screens.FEATURES,
 	},
 	{
 		id: 'corn',
@@ -59,13 +60,16 @@ const listCrop = [
 const Crops = ({ crops }) => {
 	const navigation = useNavigation();
 	const route = useRoute();
+	const selectedCrops = route.params['selectedCrops'];
 
-	const handlePress = crop => {
+	const handlePress = (route, crop) => {
 		// console.log('press');
-		return e => {
-			console.log('press');
-			navigation.navigate(Screens.CAPTURE, { name: 'Crops', crop: crop });
-		};
+		if (!route) return;
+		console.log('press');
+		navigation.navigate(route, {
+			from: Screens.HOME,
+			crop: crop,
+		});
 	};
 
 	console.log('Home', crops, route.params);
@@ -73,47 +77,53 @@ const Crops = ({ crops }) => {
 	return (
 		<View style={[styles.container]}>
 			<View style={[styles.boudingBox]}>
+				<Text style={styles.title}>Quan tâm</Text>
 				<View style={[styles.flexBox]}>
-					{listCrop.map(({ id, name, svgIcon }) => (
-						<View key={name} style={styles.flexItem}>
-							<TouchableOpacity
-								style={[styles.opacityButton]}
-								onPress={handlePress(name)}>
-								<View style={[styles.flexContentButton]}>
-									<SvgCss
-										width={80}
-										height={80}
-										xml={svgIcon}
-									/>
-									<Text style={[styles.buttonName]}>
-										{name}
-									</Text>
-								</View>
-							</TouchableOpacity>
-						</View>
-					))}
+					{listCrop.map(({ id, name, route, svgIcon }) =>
+						!selectedCrops[id] ? undefined : (
+							<View key={name} style={styles.flexItem}>
+								<TouchableOpacity
+									style={[styles.opacityButton]}
+									onPress={() => handlePress(route, name)}>
+									<View style={[styles.flexContentButton]}>
+										<SvgCss
+											width={80}
+											height={80}
+											xml={svgIcon}
+										/>
+										<Text style={[styles.buttonName]}>
+											{name}
+										</Text>
+									</View>
+								</TouchableOpacity>
+							</View>
+						),
+					)}
 				</View>
 			</View>
 			<View style={[styles.boudingBox]}>
+				<Text style={styles.title}>Cây khác</Text>
 				<View style={[styles.flexBox]}>
-					{listCrop.map(({ name, svgIcon }) => (
-						<View key={name} style={styles.flexItem}>
-							<TouchableOpacity
-								style={[styles.opacityButton]}
-								onPress={handlePress(name)}>
-								<View style={[styles.flexContentButton]}>
-									<SvgCss
-										width={80}
-										height={80}
-										xml={svgIcon}
-									/>
-									<Text style={[styles.buttonName]}>
-										{name}
-									</Text>
-								</View>
-							</TouchableOpacity>
-						</View>
-					))}
+					{listCrop.map(({ id, name, route, svgIcon }) =>
+						selectedCrops[id] ? undefined : (
+							<View key={name} style={styles.flexItem}>
+								<TouchableOpacity
+									style={[styles.opacityButton]}
+									onPress={() => handlePress(route, name)}>
+									<View style={[styles.flexContentButton]}>
+										<SvgCss
+											width={80}
+											height={80}
+											xml={svgIcon}
+										/>
+										<Text style={[styles.buttonName]}>
+											{name}
+										</Text>
+									</View>
+								</TouchableOpacity>
+							</View>
+						),
+					)}
 				</View>
 			</View>
 		</View>
@@ -141,9 +151,9 @@ const styles = StyleSheet.create({
 	},
 	opacityButton: {
 		flex: 1,
-		borderColor: '#797979b5',
+		borderColor: '#e0e0e0',
 		borderWidth: 1,
-		borderRadius: 8,
+		borderRadius: 16,
 	},
 	flexContentButton: {
 		paddingTop: 8,
@@ -155,6 +165,10 @@ const styles = StyleSheet.create({
 	},
 	buttonName: {
 		fontSize: 18,
+	},
+	title: {
+		fontSize: 20,
+		fontWeight: 'bold',
 	},
 });
 
