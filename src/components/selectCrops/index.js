@@ -92,9 +92,7 @@ const SelectCrops = ({ navigation, ...props }) => {
 				style={styles.fullScreen}>
 				<View style={[styles.flexRow, styles.flexEnd, styles.topBtns]}>
 					{Object.values(crops).filter(v => v).length > 0 && (
-						<TouchableOpacity
-							onPress={goToHome}
-							style={styles.next}>
+						<TouchableOpacity onPress={goToHome} style={styles.next}>
 							<View style={styles.flexRow}>
 								<Text style={styles.nextText}>Hoàn thành</Text>
 								{/* <Icon
@@ -120,32 +118,13 @@ const SelectCrops = ({ navigation, ...props }) => {
 									<View key={id} style={styles.flexItem}>
 										<TouchableOpacity
 											style={[styles.opacityButton]}
-											onPress={() =>
-												handlePress(id, name)
-											}>
-											<View
-												style={[
-													styles.flexContentButton,
-												]}>
-												<SvgCss
-													width={80}
-													height={80}
-													xml={svgIcon}
-												/>
-												<Text
-													style={[styles.buttonName]}>
-													{name}
-												</Text>
+											onPress={() => handlePress(id, name)}>
+											<View style={[styles.flexContentButton]}>
+												<SvgCss width={80} height={80} xml={svgIcon} />
+												<Text style={[styles.buttonName]}>{name}</Text>
 												{crops[id] === true && (
-													<View
-														style={[
-															styles.checked,
-														]}>
-														<Icon
-															name='check'
-															size={24}
-															color='#119016'
-														/>
+													<View style={[styles.checked]}>
+														<Icon name='check' size={24} color='#119016' />
 													</View>
 												)}
 											</View>

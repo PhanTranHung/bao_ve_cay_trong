@@ -5,11 +5,18 @@ import os
 import cv2
 import numpy as np
 from tensorflow.keras.models import load_model
+from firebase_admin import credentials, initialize_app, db
 
 app = Flask(__name__)
-
-
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+
+# Initialize Firestore DB
+cred = credentials.Certificate(
+    'plant-e7169-firebase-adminsdk-vv9mb-c8a6f499fe.json')
+default_app = initialize_app(
+    cred, {'databaseURL': 'https://plant-e7169-default-rtdb.firebaseio.com'})
+# db = firestore.client()
+disease_ref = db.reference('disease')
 
 
 def allowed_file(filename):
@@ -32,6 +39,7 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
+    print("predict.....................")
     if 'img' not in request.files:
         return jsonify({
             'message': 'Missing file'
@@ -47,15 +55,24 @@ def predict():
             filestr = file.read()
             img = np.frombuffer(filestr, np.uint8)
             img = cv2.imdecode(img, cv2.IMREAD_COLOR)
-            img = cv2.resize(img, (128, 128, 3))
-            # img = cv2.reshape(img, (128, 128, 3))
-            # img = np.expand_dims(img, 0)
-            pred = model.predict(img)
-            pred = np.argmax(np.round(pred), axis=0)
-            return jsonify({
-                'message': 'Success',
-                'traffic_id': str(pred[0])
-            })
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            img = cv2.resize(img, (256, 256))
+            img = np.reshape(img, (256, 256, 3))
+            img = img /255.
+            pred = model.predict(np.asarray([img]))[0]
+            todo_id = np.argmax(np.round(pred), axis=0)
+            if todo_id:
+                todo = db.reference('disease').order_by_key().equal_to(str(todo_id)).get()
+                print(todo)
+                disease = todo[str(todo_id)]
+                return jsonify({
+                    'message': 'Success',
+                    'data': disease
+                }), 200
+                # return jsonify({
+                #     'message': 'Success',
+                #     'traffic_id': str(pred[0])
+                # })
         except:
             return jsonify({
                 'message': 'Server error'
@@ -65,6 +82,18 @@ def predict():
             'message': 'File doesn\'t support'
         }), 400
 
+@app.route('/id1', methods=['GET', 'POST'])
+def readid():
+    try:
+        # Check if ID was passed to URL query
+        todo_id = 1
+        if todo_id == 1:
+            todo = disease_ref.document(todo_id).get()
+            print(todo.to_dict())
+            return jsonify(todo.to_dict()), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
 
 if __name__ == "__main__":
 
@@ -73,4 +102,4 @@ if __name__ == "__main__":
     print(("* Loading Keras model and Flask starting server..."
            "please wait until server has fully started"))
     model()
-    app.run(threaded=True, host='0.0.0.0', port=port)
+    app.run(threaded=True, host='0.0.0.0', port=8080)

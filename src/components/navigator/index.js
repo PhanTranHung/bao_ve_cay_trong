@@ -8,6 +8,8 @@ import PreviewImageScreen from 'components/previewImage';
 import SelectCropsScreen from 'components/selectCrops';
 import FeaturesScreen from 'components/features';
 import Screens from 'until/screens';
+import Result from 'components/result';
+
 import { defaultScreen } from 'components/screenManager';
 
 const Stack = createStackNavigator();
@@ -15,9 +17,7 @@ const Stack = createStackNavigator();
 const Navigator = () => {
 	return (
 		<NavigationContainer>
-			<Stack.Navigator
-				initialRouteName={defaultScreen()}
-				headerMode='none'>
+			<Stack.Navigator initialRouteName={defaultScreen()} headerMode='none'>
 				<Stack.Screen
 					name={Screens.SELECTCROPS}
 					component={SelectCropsScreen}
@@ -28,18 +28,10 @@ const Navigator = () => {
 					component={HomeScreen}
 					options={{ title: 'Home Screen' }}
 				/>
-				<Stack.Screen
-					name={Screens.FEATURES}
-					component={FeaturesScreen}
-				/>
-				<Stack.Screen
-					name={Screens.CAPTURE}
-					component={CaptureScreen}
-				/>
-				<Stack.Screen
-					name={Screens.PREVIEW}
-					component={PreviewImageScreen}
-				/>
+				<Stack.Screen name={Screens.FEATURES} component={FeaturesScreen} />
+				<Stack.Screen name={Screens.CAPTURE} component={CaptureScreen} />
+				<Stack.Screen name={Screens.RESULT} component={Result} />
+				<Stack.Screen name={Screens.PREVIEW} component={PreviewImageScreen} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);

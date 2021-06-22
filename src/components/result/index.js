@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, SafeAreaView, ScrollView } from 'react-native';
 
-import Banner from './banner';
-import Crops from './crops';
-import Screens from 'until/screens';
+// import Banner from './banner';
+// import Crops from './crops';
+// import Screens from 'until/screens';
 import { useRoute } from '@react-navigation/core';
 import HTML from 'react-native-render-html';
 import { Container, Content } from 'native-base';
 
 const result = ({ navigation, route, ...props }) => {
-	console.log(route.params);
+	console.log('PARAMS: ', route.params);
 	const html = route.params.html;
 
 	return (

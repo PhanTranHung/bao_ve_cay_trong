@@ -23,6 +23,13 @@
 			},
 			"args": ["run", "--no-debugger", "--no-reload"],
 			"jinja": true
-		}
+		},
+		{
+			"name": "Python: FLASK",
+			"type": "python",
+			"request": "launch",
+			"program": "app.py",
+			"console": "integratedTerminal"
+		},
 	]
 }

@@ -1,8 +1,9 @@
 
 # Required imports
 import os
-from flask import Flask, request, jsonify
-from firebase_admin import credentials, firestore, initialize_app
+from flask import Flask
+from flask import request, jsonify
+from firebase_admin import credentials, initialize_app, db
 import cv2
 import numpy as np
 
@@ -13,9 +14,11 @@ app = Flask(__name__)
 # Initialize Firestore DB
 cred = credentials.Certificate(
     'plant-e7169-firebase-adminsdk-vv9mb-c8a6f499fe.json')
-default_app = initialize_app(cred)
-db = firestore.client()
-todo_ref = db.collection('Disease')
+default_app = initialize_app(
+    cred, {'databaseURL': 'https://plant-e7169-default-rtdb.firebaseio.com'})
+# db = firestore.client()
+# disease_ref = db.reference('disease')
+todo_ref = db.reference('disease')
 
 
 @app.route('/add', methods=['POST'])
@@ -43,7 +46,7 @@ def read():
     try:
         # Check if ID was passed to URL query
         todo_id = request.args.get('id')
-        if todo_id:
+        if todo_id == '1':
             todo = todo_ref.document(todo_id).get()
             return jsonify(todo.to_dict()), 200
         else:

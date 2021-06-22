@@ -15,7 +15,7 @@ import Screens from 'until/screens';
 
 const send = (
 	image,
-	url = 'http://192.168.1.9:8080/predict',
+	url = 'http://192.168.1.3:8080/predict',
 	options = { method: 'POST', headers: {} },
 ) => {
 	const { method, headers } = options;
@@ -24,7 +24,7 @@ const send = (
 	const img = {
 		uri: image,
 		type: 'image/jpeg',
-		name: `disease.jpg`,
+		name: 'disease.jpg',
 	};
 
 	const body = new FormData();
@@ -63,9 +63,9 @@ const PreviewImage = ({ navigation, route, ...props }) => {
 			send(img.uri)
 				.then(rs => {
 					console.log('Success:::', rs);
-					navigateToResultScreen(rs.describe);
+					navigateToResultScreen(rs.data.describe);
 				})
-				.catch(e => navigateToResultScreen(rs.describe));
+				.catch(rs => navigateToResultScreen(rs.data.describe));
 		});
 	};
 
@@ -85,10 +85,7 @@ const PreviewImage = ({ navigation, route, ...props }) => {
 		return (
 			<View key={item.uri} style={styles.boudingBox}>
 				<Image
-					style={[
-						styles.image,
-						{ aspectRatio: item.width / item.height },
-					]}
+					style={[styles.image, { aspectRatio: item.width / item.height }]}
 					source={{ uri: item.uri }}
 				/>
 				{/* <Text>{item.uri}</Text> */}
@@ -100,9 +97,7 @@ const PreviewImage = ({ navigation, route, ...props }) => {
 		<SafeAreaView style={[styles.fullScreen]}>
 			<View style={styles.fullScreen}>
 				<View style={styles.navbar}>
-					<TouchableOpacity
-						style={styles.backButton}
-						onPress={handleBack}>
+					<TouchableOpacity style={styles.backButton} onPress={handleBack}>
 						<Icon name='chevron-left' size={30} color='#484848' />
 					</TouchableOpacity>
 				</View>
@@ -112,9 +107,7 @@ const PreviewImage = ({ navigation, route, ...props }) => {
 					keyExtractor={item => item.uri}
 				/>
 				<View style={styles.bottomActions}>
-					<TouchableOpacity
-						onPress={predictImage}
-						style={styles.scanButton}>
+					<TouchableOpacity onPress={predictImage} style={styles.scanButton}>
 						<Text style={styles.text}>Chuẩn đoán</Text>
 					</TouchableOpacity>
 				</View>
