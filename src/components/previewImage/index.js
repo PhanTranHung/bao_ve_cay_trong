@@ -1,17 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	StyleSheet,
 	Text,
 	View,
 	SafeAreaView,
 	Image,
-	TouchableOpacity,
 	FlatList,
+	ToastAndroid,
 } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { hasReadExternalStoragePermission } from 'until/permission';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios';
 import Screens from 'until/screens';
+import CloseDuotone from 'assests/imgs/crops/svgs/close-duotone.svg';
+import { SvgCss } from 'react-native-svg';
 
 const send = (
 	image,
@@ -48,17 +51,18 @@ const send = (
 };
 
 const PreviewImage = ({ navigation, route, ...props }) => {
-	const { listImage = [] } = route.params;
+	const [listImage, setListImage] = useState(route.params.listImage || []);
 
 	hasReadExternalStoragePermission()
-		.then(() => console.log('hasReadExternalStoragePermission'))
+		// .then(() => console.log('hasReadExternalStoragePermission'))
 		.catch(e => console.warn(e));
 
-	// const listImageUri = listImage.map(
-	// 	entry => entry.uri /* .split('//')[1] */,
-	// );
+	// console.log(`list image ................`, listImage);
 
 	const predictImage = () => {
+		if (listImage.length <= 0)
+			return ToastAndroid.show('Không có ảnh nào', ToastAndroid.SHORT);
+
 		listImage.map(img => {
 			send(img.uri)
 				.then(rs => {
@@ -74,30 +78,49 @@ const PreviewImage = ({ navigation, route, ...props }) => {
 		navigation.navigate(Screens.RESULT, { html });
 	};
 
-	// axios
-	// 	.get('http://192.168.1.9:8080/list')
-	// 	.then(rs => rs.data)
-	// 	.then(console.log);
-
 	const handleBack = () => navigation.goBack();
+
+	const removeImageAt = index => {
+		listImage.splice(index, 1);
+		// console.log('removeImageAt: ', index, listImage.length);
+		if (listImage.length <= 0) return navigation.goBack();
+		setListImage([...listImage]);
+	};
 
 	const renderImageItem = ({ item, index, separators }) => {
 		return (
 			<View key={item.uri} style={styles.boudingBox}>
 				<Image
-					style={[styles.image, { aspectRatio: item.width / item.height }]}
+					style={[
+						styles.image,
+						{ aspectRatio: item.width / item.height },
+					]}
 					source={{ uri: item.uri }}
 				/>
-				{/* <Text>{item.uri}</Text> */}
+				<View style={styles.removeButton}>
+					<TouchableOpacity onPress={() => removeImageAt(index)}>
+						<View>
+							<SvgCss
+								width={40}
+								height={40}
+								color='white'
+								xml={CloseDuotone}
+							/>
+						</View>
+					</TouchableOpacity>
+				</View>
 			</View>
 		);
 	};
 
+	console.log('render...........................................');
 	return (
 		<SafeAreaView style={[styles.fullScreen]}>
 			<View style={styles.fullScreen}>
 				<View style={styles.navbar}>
-					<TouchableOpacity style={styles.backButton} onPress={handleBack}>
+					<TouchableOpacity
+						style={styles.backButton}
+						onPress={handleBack}>
 						<Icon name='chevron-left' size={30} color='#484848' />
 					</TouchableOpacity>
 				</View>
@@ -107,7 +130,9 @@ const PreviewImage = ({ navigation, route, ...props }) => {
 					keyExtractor={item => item.uri}
 				/>
 				<View style={styles.bottomActions}>
-					<TouchableOpacity onPress={predictImage} style={styles.scanButton}>
+					<TouchableOpacity
+						onPress={predictImage}
+						style={styles.scanButton}>
 						<Text style={styles.text}>Chuẩn đoán</Text>
 					</TouchableOpacity>
 				</View>
@@ -135,6 +160,11 @@ const styles = StyleSheet.create({
 	image: {
 		width: '100%',
 	},
+	removeButton: {
+		position: 'absolute',
+		top: 10,
+		right: 10,
+	},
 	backButton: {
 		width: 50,
 		height: '100%',
@@ -146,6 +176,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	boudingBox: {
+		position: 'relative',
 		paddingVertical: 16,
 		paddingHorizontal: 16,
 	},

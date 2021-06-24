@@ -8,6 +8,7 @@ import CaptureButton from './captureButton';
 import FindBugButton from './findBugButton';
 import Toolbar from './toolbar';
 import Note from './note';
+import OpenImagePickerButton from './openImagePickerButton';
 
 const { width, height } = Dimensions.get('window');
 
@@ -84,6 +85,10 @@ const Capture = ({ navigation, route, ...props }) => {
 						onPressChangeCameraType={handleChangeCamera}
 					/>
 					<Note style={styles.note} />
+					<OpenImagePickerButton
+						size={60}
+						style={styles.imagePickerButton}
+					/>
 					<CaptureButton
 						size={100}
 						color='white'
@@ -155,6 +160,12 @@ const styles = StyleSheet.create({
 		left: width / 2 - (width * 0.7) / 2,
 		backgroundColor: '#0000004d',
 		borderRadius: 8,
+	},
+	imagePickerButton: {
+		position: 'absolute',
+		borderRadius: 50,
+		bottom: 115,
+		right: (width * 2.8) / 4,
 	},
 });
 
