@@ -18,12 +18,13 @@ import {
 	Text,
 } from 'native-base';
 import HTML from 'react-native-render-html';
+import Searchbar from './searchbar';
 
 const listItem = [
 	{
 		id: '',
 		name: 'Bản tin cây lúa',
-		route: '',
+		route: Screens.NEWS,
 		icon: 'desktop-outline',
 		iconPostion: '',
 		color: '',
@@ -39,7 +40,7 @@ const listItem = [
 	{
 		id: '',
 		name: 'Tìm hiểu',
-		route: '',
+		route: Screens.STUDY,
 		icon: 'library-outline',
 		iconPostion: '',
 		color: '',
@@ -52,14 +53,14 @@ const listItem = [
 		iconPostion: '',
 		color: '',
 	},
-	// {
-	// 	id: '',
-	// 	name: 'Bản tin cây lúa',
-	// 	route: '',
-	// 	icon: '',
-	// 	iconPostion: '',
-	// 	color: '',
-	// },
+	{
+		id: '',
+		name: 'Lịch sử',
+		route: '',
+		icon: 'git-network-sharp',
+		iconPostion: '',
+		color: '',
+	},
 ];
 
 const Features = ({ navigation, route, ...props }) => {
@@ -74,31 +75,43 @@ const Features = ({ navigation, route, ...props }) => {
 		<SafeAreaView style={[styles.fullScreen]}>
 			<Container>
 				<Content>
-					<Card>
-						<CardItem>
-							<Body>
-								<Text>Đạo ôn cổ bông nguy hại như thế nào</Text>
-								<Text note>GeekyAnts</Text>
-							</Body>
-							<Right>
-								<View style={styles.row}>
-									<FAIcon name='eye' color='#8e908c' />
-									<Text note> 186</Text>
-								</View>
-								<View>
-									<Text note>11 giờ</Text>
-								</View>
-							</Right>
-						</CardItem>
-						<CardItem cardBody>
-							<Image
-								source={{
-									uri: 'https://www.daibieunhandan.vn/media/19/05/190508074746234/05-ngan-chan12819-489.jpg',
-								}}
-								style={styles.cardImageImage}
-							/>
-						</CardItem>
-					</Card>
+					<Searchbar />
+					<Content style={styles.cardBounding}>
+						<Card style={styles.cardStyle}>
+							<CardItem>
+								<Body>
+									<Text>
+										Đạo ôn cổ bông nguy hại như thế nào
+									</Text>
+									<Text note>
+										Viện giống cây trồng Việt Nam
+									</Text>
+								</Body>
+								<Right>
+									<View style={styles.row}>
+										<Text style={styles.focus} note>
+											mới
+										</Text>
+									</View>
+									<View style={styles.row}>
+										<FAIcon name='eye' color='#8e908c' />
+										<Text note> 186</Text>
+									</View>
+									<View>
+										<Text note>11 giờ</Text>
+									</View>
+								</Right>
+							</CardItem>
+							<CardItem cardBody>
+								<Image
+									source={{
+										uri: 'https://www.daibieunhandan.vn/media/19/05/190508074746234/05-ngan-chan12819-489.jpg',
+									}}
+									style={styles.cardImageImage}
+								/>
+							</CardItem>
+						</Card>
+					</Content>
 					<Body style={styles.actions}>
 						<View style={styles.width90}>
 							<View style={[styles.flexBox]}>
@@ -151,6 +164,22 @@ const styles = StyleSheet.create({
 		width: '100%',
 		height: 250,
 		flex: 1,
+	},
+	focus: {
+		borderColor: '#5cb85c',
+		borderWidth: 1,
+		borderStyle: 'solid',
+		borderRadius: 50,
+		paddingLeft: 8,
+		paddingRight: 6,
+		color: '#5cb85c',
+	},
+	cardStyle: {
+		// width: '96%',
+		// marginHorizontal: '2%',
+	},
+	cardBounding: {
+		paddingHorizontal: '2%',
 	},
 	actions: {
 		paddingTop: 30,

@@ -7,9 +7,10 @@ import CaptureScreen from 'components/capture';
 import PreviewImageScreen from 'components/previewImage';
 import SelectCropsScreen from 'components/selectCrops';
 import FeaturesScreen from 'components/features';
-import Screens from 'until/screens';
 import Result from 'components/result';
-
+import News from 'components/news'
+import Screens from 'until/screens';
+import Study from 'components/study';
 import { defaultScreen } from 'components/screenManager';
 
 const Stack = createStackNavigator();
@@ -32,6 +33,8 @@ const Navigator = () => {
 				<Stack.Screen name={Screens.CAPTURE} component={CaptureScreen} />
 				<Stack.Screen name={Screens.RESULT} component={Result} />
 				<Stack.Screen name={Screens.PREVIEW} component={PreviewImageScreen} />
+				<Stack.Screen name={Screens.NEWS} component={News} />
+				<Stack.Screen name={Screens.STUDY} component={Study} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
