@@ -14,7 +14,7 @@ const result = ({ navigation, route, ...props }) => {
 
 	return (
 		<SafeAreaView style={[styles.fullScreen]}>
-			<Container>
+			<Container style={styles.container}>
 				<Content>
 					<HTML source={{ html }} />
 				</Content>
@@ -28,6 +28,9 @@ const styles = StyleSheet.create({
 		width: '100%',
 		height: '100%',
 		backgroundColor: 'white',
+	},
+	container: {
+		paddingHorizontal: '3%',
 	},
 });
 

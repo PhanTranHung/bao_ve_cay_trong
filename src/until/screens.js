@@ -5,4 +5,6 @@ export default {
 	SELECTCROPS: 'SELECTCROPS',
 	FEATURES: 'FEATURES',
 	RESULT: 'RESULT',
+	NEWS: 'NEWS',
+	STUDY: 'STUDY',
 };
